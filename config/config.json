@@ -1,17 +1,17 @@
 {
   "development": {
-    "username": "postgrest",
-    "password": "postgrest",
-    "database": "all_bk_dev",
+    "username": "postgres",
+    "password": "postgres",
+    "database": "all_backend_dev",
     "host": "127.0.0.1",
-    "dialect": "mysql"
+    "dialect": "postgres"
   },
   "test": {
-    "username": "root",
-    "password": null,
-    "database": "all_bk_test",
+    "username": "postgres",
+    "password": "postgres",
+    "database": "all_backend_test",
     "host": "127.0.0.1",
-    "dialect": "mysql"
+    "dialect": "postgres"
   },
   "production": {
     "use_env_variable": "DATABASE_URL"
