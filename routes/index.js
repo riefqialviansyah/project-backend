@@ -10,6 +10,10 @@ router.get("/", (req, res) => {
   });
 });
 
+// Portfolio Route
 router.use("/portfolio", require("./portfolioRoute"));
+
+// Word Bank Route
+router.use("/wordbank", require("./wordBankRoute"));
 
 module.exports = router;
