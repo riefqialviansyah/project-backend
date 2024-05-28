@@ -5,6 +5,7 @@ const errHandler = (err, req, res, next) => {
       res.status(403).json({ message: err.errors[0].message });
       break;
     case "NotFound":
+    case "ErrorGeneratePractice":
       res.status(403).json({ message: err.message });
       break;
     default:

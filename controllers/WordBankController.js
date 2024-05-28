@@ -92,6 +92,58 @@ class WordBankController {
       next(error);
     }
   }
+
+  static async dayPractice(req, res, next) {
+    try {
+      let result = [];
+      let otherOption = [];
+
+      const words = await WordCreate.findAll({
+        attributes: ["day", "id"],
+        include: {
+          model: Word,
+          attributes: ["id", "asing", "terjemah"],
+        },
+      });
+      words.forEach((element) => {
+        element.Words.map((word) => {
+          let tmp = {
+            question: word.asing,
+            answer: word.terjemah,
+            options: [word.terjemah],
+          };
+          otherOption.push(word.terjemah);
+          result.push(tmp);
+        });
+      });
+
+      if (otherOption.length < 4) {
+        throw {
+          name: "ErrorGeneratePractice",
+          message: "Word must be more than 3",
+        };
+      }
+
+      result = result.map((el) => {
+        while (el.options.length < 4) {
+          let randomIndex = Math.floor(Math.random() * otherOption.length);
+          if (!el.options.includes(otherOption[randomIndex])) {
+            el.options.push(otherOption[randomIndex]);
+          }
+        }
+
+        el.options = el.options.sort(() => Math.random() - 0.5);
+
+        return el;
+      });
+
+      result = result.sort(() => Math.random() - 0.5);
+
+      res.status(200).json({ data: result });
+    } catch (error) {
+      next(error);
+    }
+  }
 }
 
 module.exports = WordBankController;
