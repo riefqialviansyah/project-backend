@@ -64,6 +64,7 @@ class WordBankController {
     try {
       const words = await WordCreate.findAll({
         attributes: ["day", "id"],
+        order: [["day", "DESC"]],
         include: {
           model: Word,
           attributes: ["id", "asing", "terjemah"],
