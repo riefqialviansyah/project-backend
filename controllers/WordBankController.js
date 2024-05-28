@@ -62,13 +62,19 @@ class WordBankController {
 
   static async getAllWordBank(req, res, next) {
     try {
-      const words = await WordCreate.findAll({
+      let words = await WordCreate.findAll({
         attributes: ["day", "id"],
         order: [["day", "DESC"]],
         include: {
           model: Word,
-          attributes: ["id", "asing", "terjemah"],
+          attributes: ["id", "asing", "terjemah", "createdAt"],
         },
+      });
+
+      // sorting words by createdAt
+      words = words.map((el) => {
+        el.Words = el.Words.sort((a, b) => b.createdAt - a.createdAt);
+        return el;
       });
 
       res.status(200).json({ data: words });
