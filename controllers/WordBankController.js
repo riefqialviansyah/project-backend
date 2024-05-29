@@ -1,3 +1,4 @@
+const { sortByLastAdd, sortByASCChar } = require("../helpers/sortWord");
 const { Word, WordCreate, sequelize } = require("../models");
 
 class WordBankController {
@@ -62,6 +63,8 @@ class WordBankController {
 
   static async getAllWordBank(req, res, next) {
     try {
+      const { sort } = req.query;
+
       let words = await WordCreate.findAll({
         attributes: ["day", "id"],
         order: [["day", "DESC"]],
@@ -71,9 +74,12 @@ class WordBankController {
         },
       });
 
-      // sorting words by createdAt
       words = words.map((el) => {
-        el.Words = el.Words.sort((a, b) => b.createdAt - a.createdAt);
+        if (sort == "lastAdd") {
+          el.Words = sortByLastAdd(el);
+        } else {
+          el.Words = sortByASCChar(el);
+        }
         return el;
       });
 
